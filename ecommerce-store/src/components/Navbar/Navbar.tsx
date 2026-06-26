@@ -20,8 +20,14 @@ function Navbar() {
     (state: RootState) => state.favorites.items.length
   );
 
-  // Пока корзину еще не сделали
-  const cartCount = 0;
+  
+  const cartCount = useSelector(
+    (state: RootState) =>
+      state.cart.items.reduce(
+        (total, item) => total + item.quantity,
+        0
+      )
+  );
 
   return (
     <AppBar position="static">

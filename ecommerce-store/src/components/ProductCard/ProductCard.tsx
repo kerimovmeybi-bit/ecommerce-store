@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../../features/favorites/favoritesSlice";
 
 import type { RootState, AppDispatch  } from "../../app/store";
+import ShoppingCartIcon  from "@mui/icons-material/ShoppingCart";
+import { addToCart } from "../../features/cart/cartSlice";
 
 interface ProductCardProps {
   product: Product;
@@ -110,9 +112,11 @@ function ProductCard({ product }: ProductCardProps) {
         <Button
           variant="contained"
           fullWidth
+          startIcon={<ShoppingCartIcon />}
           sx={{
             mt: "auto",
           }}
+          onClick={() => dispatch(addToCart(product))}
         >
           Add to Cart
         </Button>
