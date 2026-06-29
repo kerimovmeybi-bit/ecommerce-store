@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Favorites from "../pages/Favorites";
+import NotFound from "../pages/NotFound";
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
