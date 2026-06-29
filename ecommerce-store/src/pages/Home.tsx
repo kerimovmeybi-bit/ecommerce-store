@@ -5,9 +5,9 @@ import { Container, Grid, Box } from "@mui/material";
 import ProductCard from "../components/ProductCard/ProductCard";
 import SearchBar from "../components/SearchBar/SearchBar";
 import CategoryFilter from "../components/CategoryFilter/CategoryFilter";
-
+import ProductSkeleton from "../components/ProductSkeleton/ProductSkeleton";
 import { fetchProducts } from "../features/products/productsSlice";
-
+import Hero from "../components/Hero/Hero";
 import type { AppDispatch, RootState } from "../app/store";
 
 function Home() {
@@ -38,10 +38,13 @@ function Home() {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-      <h1>Home Page</h1>
+      <Hero />
 
-      <p>Products: {filteredProducts.length}</p>
-
+      <p>
+        Products found:
+        {" "}
+        {filteredProducts.length}
+      </p>
       <SearchBar
         search={search}
         setSearch={setSearch}
@@ -54,7 +57,23 @@ function Home() {
         />
       </Box>
 
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <Grid container spacing={3} sx={{ mt: 2 }}>
+          {[...Array(8)].map((_, index) => (
+            <Grid
+              key={index}
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: 3,
+              }}
+            >
+              <ProductSkeleton />
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       {error && <p>{error}</p>}
 

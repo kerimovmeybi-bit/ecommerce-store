@@ -13,7 +13,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -38,14 +38,38 @@ function Cart() {
   );
 
   if (cartItems.length === 0) {
-    return (
-      <Container sx={{ mt: 5 }}>
-        <Typography variant="h4">
-          Your cart is empty
-        </Typography>
-      </Container>
-    );
-  }
+  return (
+    <Container
+      maxWidth="md"
+      sx={{
+        mt: 8,
+        textAlign: "center",
+      }}
+    >
+      <ShoppingCartIcon
+        sx={{
+          fontSize: 80,
+          mb: 2,
+        }}
+      />
+
+      <Typography
+        variant="h4"
+        gutterBottom
+      >
+        Your cart is empty
+      </Typography>
+
+      <Typography
+        variant="body1"
+        color="text.secondary"
+      >
+        Start shopping and add
+        products to your cart.
+      </Typography>
+    </Container>
+  );
+}
 
   return (
     <Container maxWidth="lg" sx={{ mt: 5 }}>
