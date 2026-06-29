@@ -2,7 +2,6 @@ import {
   Container,
   Grid,
   Typography,
-  Box,
 } from "@mui/material";
 
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
