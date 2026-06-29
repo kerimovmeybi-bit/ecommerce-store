@@ -39,7 +39,7 @@ function ProductCard({ product }: ProductCardProps) {
     <Card
       onClick={() => navigate(`/product/${product.id}`)}
       sx={{
-        position: "relаtive",
+        position: "relative",
         height: "100%",
         display: "flex",
         flexDirection: "column",
