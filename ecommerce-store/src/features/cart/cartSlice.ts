@@ -12,8 +12,10 @@ interface CartState {
   items: CartItem[];
 }
 
+const savedCart = localStorage.getItem("cart");
+
 const initialState: CartState = {
-  items: [],
+  items: savedCart ? JSON.parse(savedCart) : [],
 };
 
 const cartSlice = createSlice({
@@ -37,11 +39,21 @@ const cartSlice = createSlice({
           quantity: 1,
         });
       }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.items)
+      );
     },
 
     removeFromCart(state, action: PayloadAction<number>) {
       state.items = state.items.filter(
         (item) => item.product.id !== action.payload
+      );
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.items)
       );
     },
 
@@ -53,6 +65,11 @@ const cartSlice = createSlice({
       if (item) {
         item.quantity += 1;
       }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.items)
+      );
     },
 
     decreaseQuantity(state, action: PayloadAction<number>) {
@@ -69,10 +86,20 @@ const cartSlice = createSlice({
       } else {
         item.quantity -= 1;
       }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.items)
+      );
     },
 
     clearCart(state) {
       state.items = [];
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.items)
+      );
     },
   },
 });

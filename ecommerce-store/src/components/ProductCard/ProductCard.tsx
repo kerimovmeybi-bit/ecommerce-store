@@ -6,6 +6,7 @@ import {
   Button,
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
 import type { Product } from "../../types/Product";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -26,6 +27,7 @@ interface ProductCardProps {
 function ProductCard({ product }: ProductCardProps) {
   
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const favorites = useSelector(
     (state: RootState) => state.favorites.items
@@ -35,8 +37,9 @@ function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card
+      onClick={() => navigate(`/product/${product.id}`)}
       sx={{
-        position: "reletive",
+        position: "relаtive",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -50,7 +53,10 @@ function ProductCard({ product }: ProductCardProps) {
       }}
     >
     <IconButton
-      onClick={() => dispatch(toggleFavorite(product.id))}
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(toggleFavorite(product.id));
+      }}
       sx={{
         position: "absolute",
         top: 10,
@@ -116,7 +122,10 @@ function ProductCard({ product }: ProductCardProps) {
           sx={{
             mt: "auto",
           }}
-          onClick={() => dispatch(addToCart(product))}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(addToCart(product));
+          }}
         >
           Add to Cart
         </Button>

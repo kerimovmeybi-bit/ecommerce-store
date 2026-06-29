@@ -20,6 +20,7 @@ import {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
+  clearCart,
 } from "../features/cart/cartSlice";
 
 import type { AppDispatch, RootState } from "../app/store";
@@ -136,6 +137,23 @@ function Cart() {
           justifyContent: "space-between",
         }}
       >
+      <Divider sx={{ my: 4 }} />
+      <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mb: 3,
+          }}
+      >
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => dispatch(clearCart())}
+          >
+            Clear Cart
+          </Button>
+      </Box>
+
         <Typography variant="h5">
           Total
         </Typography>
