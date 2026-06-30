@@ -21,7 +21,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 

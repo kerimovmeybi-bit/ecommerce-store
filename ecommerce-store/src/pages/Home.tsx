@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Grid, Box } from "@mui/material";
+import { motion } from "framer-motion";
 
 import ProductCard from "../components/ProductCard/ProductCard";
 import SearchBar from "../components/SearchBar/SearchBar";
@@ -36,15 +37,37 @@ function Home() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      y: 30,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+      },
+    },
+  };
+
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
       <Hero />
 
       <p>
-        Products found:
-        {" "}
-        {filteredProducts.length}
+        Products found: {filteredProducts.length}
       </p>
+
       <SearchBar
         search={search}
         setSearch={setSearch}
@@ -77,21 +100,31 @@ function Home() {
 
       {error && <p>{error}</p>}
 
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        {filteredProducts.map((product) => (
-          <Grid
-            key={product.id}
-            size={{
-              xs: 12,
-              sm: 6,
-              md: 4,
-              lg: 3,
-            }}
-          >
-            <ProductCard product={product} />
+      {!loading && (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            {filteredProducts.map((product) => (
+              <Grid
+                key={product.id}
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 4,
+                  lg: 3,
+                }}
+              >
+                <motion.div variants={itemVariants}>
+                  <ProductCard product={product} />
+                </motion.div>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </motion.div>
+      )}
     </Container>
   );
 }

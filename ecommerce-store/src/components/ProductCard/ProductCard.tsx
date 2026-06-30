@@ -8,24 +8,27 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import type { Product } from "../../types/Product";
+
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import  FavoriteBorderIcon  from "@mui/icons-material/FavoriteBorder";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { toggleFavorite } from "../../features/favorites/favoritesSlice";
-
-import type { RootState, AppDispatch  } from "../../app/store";
-import ShoppingCartIcon  from "@mui/icons-material/ShoppingCart";
 import { addToCart } from "../../features/cart/cartSlice";
+
+import type { RootState, AppDispatch } from "../../app/store";
+
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 interface ProductCardProps {
   product: Product;
 }
 
 function ProductCard({ product }: ProductCardProps) {
-  
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -36,101 +39,139 @@ function ProductCard({ product }: ProductCardProps) {
   const isFavorite = favorites.includes(product.id);
 
   return (
-    <Card
-      onClick={() => navigate(`/product/${product.id}`)}
-      sx={{
-        position: "relative",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        cursor: "pointer",
-        transition: "0.3s ease",
-
-        "&:hover": {
-          transform: "translateY(-8px)",
-          boxShadow: 10,
-        },
+    <motion.div
+      whileHover={{
+        y: -10,
+        scale: 1.03,
       }}
+      whileTap={{
+        scale: 0.98,
+      }}
+      transition={{
+        duration: 0.2,
+      }}
+      style={{ height: "100%" }}
     >
-    <IconButton
-      onClick={(e) => {
-        e.stopPropagation();
-        dispatch(toggleFavorite(product.id));
-      }}
-      sx={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        zIndex: 2,
-      }}
-    >
-      {isFavorite ? (
-        <FavoriteIcon color="error" />
-      ) : (
-        <FavoriteBorderIcon />
-      )}
-    </IconButton>
-      <CardMedia
-        component="img"
-        image={product.image}
-        alt={product.title}
+      <Card
+        onClick={() => navigate(`/product/${product.id}`)}
         sx={{
-          height: 220,
-          objectFit: "contain",
-          p: 2,
-        }}
-      />
-
-      <CardContent
-        sx={{
-          flexGrow: 1,
+          position: "relative",
+          height: "100%",
           display: "flex",
           flexDirection: "column",
+          cursor: "pointer",
         }}
       >
-        <Typography
-          variant="h6"
-          gutterBottom
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation();
+
+            dispatch(toggleFavorite(product.id));
+
+            if (isFavorite) {
+              toast.info("Removed from favorites");
+            } else {
+              toast.success("Added to favorites ❤️");
+            }
+          }}
           sx={{
-            textAlign: "center",
-            height: 64,
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
+            position: "absolute",
+            top: 10,
+            right: 10,
+            zIndex: 2,
           }}
         >
-          {product.title}
-        </Typography>
+          <motion.div
+            whileTap={{ scale: 1.4 }}
+            transition={{ duration: 0.15 }}
+          >
+            {isFavorite ? (
+              <FavoriteIcon color="error" />
+            ) : (
+              <FavoriteBorderIcon />
+            )}
+          </motion.div>
+        </IconButton>
 
-        <Typography
+        <motion.div
+          whileHover={{
+            scale: 1.08,
+          }}
+          transition={{
+            duration: 0.3,
+          }}
+        >
+          <CardMedia
+            component="img"
+            image={product.image}
+            alt={product.title}
+            sx={{
+              height: 220,
+              objectFit: "contain",
+              p: 2,
+            }}
+          />
+        </motion.div>
+
+        <CardContent
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{
+              textAlign: "center",
+              height: 64,
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {product.title}
+          </Typography>
+
+          <Typography
             variant="h5"
             color="primary"
             sx={{
-                fontWeight: "bold",
-                textAlign: "center",
-                mb: 2,
+              fontWeight: "bold",
+              textAlign: "center",
+              mb: 2,
             }}
-        >
+          >
             ${product.price}
-        </Typography>
+          </Typography>
 
-        <Button
-          variant="contained"
-          fullWidth
-          startIcon={<ShoppingCartIcon />}
-          sx={{
-            mt: "auto",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(addToCart(product));
-          }}
-        >
-          Add to Cart
-        </Button>
-      </CardContent>
-    </Card>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              variant="contained"
+              fullWidth
+              startIcon={<ShoppingCartIcon />}
+              sx={{
+                mt: "auto",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+
+                dispatch(addToCart(product));
+
+                toast.success("Added to cart 🛒");
+              }}
+            >
+              Add to Cart
+            </Button>
+          </motion.div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
