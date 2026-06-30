@@ -2,7 +2,6 @@ import {
   Box,
   Typography,
   IconButton,
-  Stack,
 } from "@mui/material";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
